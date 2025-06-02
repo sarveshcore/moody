@@ -7,14 +7,16 @@ const fugaz = Fugaz_One({
   weight: ["400"],
 });
 
-function Button({ text, dark, full }) {
+function Button({ text, dark, full, disabled }) {
   return (
     <button
+      disabled={disabled}
       className={
-        "border-solid rounded-full overflow-hidden border-2 duration-200 hover:opacity-60 " +
+        "border-solid rounded-full overflow-hidden border-2 duration-200 " +
+        (disabled ? "opacity-50 cursor-not-allowed" : "hover:opacity-60") +
         (dark
-          ? "text-white border-white bg-indigo-600"
-          : "text-indigo-600 border-indigo-600 bg-white") +
+          ? "text-white border-white bg-indigo-200 cursor-pointer hover:bg-indigo-300"
+          : "text-indigo-600 border-indigo-600 bg-white cursor-pointer hover:bg-indigo-100") +
         (full ? "grid place-items-center w-full" : "")
       }
     >
