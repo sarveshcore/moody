@@ -112,7 +112,6 @@ function Dashboard() {
           >
             Welcome Back!
           </h1>
-          <p className="text-slate-600 text-lg">{formattedDate}</p>
         </div>
 
         {/* Stats Grid */}

@@ -21,25 +21,31 @@ function Header() {
     }
   };
 
+  const handleLogout = () => {
+    logout();
+  };
+
   return (
-    <header className="p-4 sm:p-8 flex items-center justify-between gap-4 border-b border-slate-100">
-      <Link href={currentUser ? "/dashboard" : "/"} onClick={handleLogoClick}>
-        <h1
-          className={`${fugaz.className} text-lg sm:text-lg textGradient hover:opacity-80 transition-opacity`}
+    <header className="p-4 sm:p-8 border-b border-slate-100">
+      <div className="flex justify-between items-center">
+        <Link
+          href={currentUser ? "/dashboard" : "/"}
+          onClick={handleLogoClick}
+          className={`text-2xl sm:text-3xl text-indigo-500 ${fugaz.className} hover:text-indigo-600 transition-colors duration-200`}
         >
-          Moody
-        </h1>
-      </Link>
-      <div className="flex items-center justify-between gap-4">
-        {currentUser && (
+          MOODY
+        </Link>
+        {currentUser && pathname !== "/" && (
           <button
-            onClick={logout}
-            className="px-4 py-2 rounded-full border-2 border-indigo-600 text-indigo-600 hover:bg-indigo-600 hover:text-white transition-all duration-300 font-medium text-sm sm:text-base flex items-center gap-2 group"
+            onClick={handleLogout}
+            className="text-slate-600 hover:text-slate-800 transition-colors duration-200 flex items-center gap-2 px-4 py-2 rounded-full border border-slate-200 hover:border-slate-300 hover:bg-slate-50"
           >
-            <span>Logout</span>
+            <span className="hidden sm:inline cursor-pointer hover:text-indigo-600 transition-colors duration-300">
+              Logout
+            </span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4 transform group-hover:translate-x-1 transition-transform"
+              className="h-5 w-5"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"

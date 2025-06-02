@@ -4,6 +4,7 @@ import { Fugaz_One } from "next/font/google";
 import Button from "./Button";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const fugaz = Fugaz_One({
   variable: "--font-geist-mono",
@@ -42,60 +43,84 @@ function Login() {
   };
 
   return (
-    <div className="flex flex-col flex-1 justify-center items-center gap-8 py-12 px-4">
-      <div className="flex flex-col items-center gap-6">
-        <h3
-          className={`text-center text-6xl sm:text-7xl md:text-8xl ${fugaz.className} textGradient`}
-        >
-          Login / Register
-        </h3>
-        <p className="text-xl text-slate-600">This is your first step!</p>
-      </div>
-
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col gap-6 w-full max-w-[400px]"
-      >
-        {error && (
-          <div
-            className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
-            role="alert"
-          >
-            <span className="block sm:inline">{error}</span>
+    <div className="min-h-[calc(100vh-200px)] flex flex-col justify-center items-center py-12 px-4">
+      <div className="w-full max-w-md">
+        <div className="bg-white rounded-2xl shadow-xl p-8 sm:p-10 border border-slate-100">
+          <div className="flex flex-col items-center gap-6 mb-8">
+            <h3
+              className={`text-4xl sm:text-5xl ${fugaz.className} bg-gradient-to-r from-indigo-600 to-pink-500 bg-clip-text text-transparent`}
+            >
+              Welcome Back
+            </h3>
+            <p className="text-slate-600 text-center">
+              Sign in to continue your mood tracking journey
+            </p>
           </div>
-        )}
 
-        <div className="relative">
-          <input
-            className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all duration-200 bg-white/50 backdrop-blur-sm"
-            placeholder="Email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {error && (
+              <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg text-sm flex items-center gap-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                {error}
+              </div>
+            )}
+
+            <div className="space-y-2">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-slate-700"
+              >
+                Email
+              </label>
+              <input
+                id="email"
+                className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all duration-200 bg-white"
+                placeholder="Enter your email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-slate-700"
+              >
+                Password
+              </label>
+              <input
+                id="password"
+                className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all duration-200 bg-white"
+                placeholder="Enter your password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+
+            <Button
+              text={isLoading ? "Loading..." : "Sign In"}
+              full
+              disabled={isLoading}
+              className="mt-8"
+            />
+          </form>
         </div>
-
-        <div className="relative">
-          <input
-            className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all duration-200 bg-white/50 backdrop-blur-sm"
-            placeholder="Password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-
-        <Button
-          text={isLoading ? "Loading..." : "Submit"}
-          full
-          disabled={isLoading}
-        />
-      </form>
-      <p>
-        Don't have an Account? <span className="text-indigo-600">Sign up</span>
-      </p>
+      </div>
     </div>
   );
 }
