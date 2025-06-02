@@ -7,7 +7,7 @@ export const metadata = {
 };
 
 function dashboardPage() {
-  const isAuthenticated = false;
+  const isAuthenticated = true;
   let children = <Login />;
   if (isAuthenticated) {
     children = <Dashboard />;

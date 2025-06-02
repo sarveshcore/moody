@@ -1,7 +1,9 @@
-import React from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 import { Fugaz_One } from "next/font/google";
 import Button from "./Button";
 import Calender from "./Calender";
+import Link from "next/link";
 
 const fugaz = Fugaz_One({
   variable: "--font-geist-mono",
@@ -10,6 +12,33 @@ const fugaz = Fugaz_One({
 });
 
 function Hero() {
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [moodData, setMoodData] = useState({});
+  const moods = {
+    happy: "😊",
+    sad: "😢",
+    angry: "😠",
+    neutral: "😐",
+    excited: "🤩",
+  };
+
+  // Set today's date as the initial selected date
+  useEffect(() => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Normalize the time to midnight
+    setSelectedDate(today);
+  }, []);
+
+  const handleMoodSelect = (mood) => {
+    if (selectedDate) {
+      const dateKey = selectedDate.toISOString().split("T")[0];
+      setMoodData((prev) => ({
+        ...prev,
+        [dateKey]: mood,
+      }));
+    }
+  };
+
   return (
     <div className="flex flex-col items-center gap-12 py-14 sm:py-20">
       <div className="flex flex-col items-center gap-8">
@@ -23,13 +52,34 @@ function Hero() {
           Matters.
         </p>
         <div className="grid grid-cols-2 mt-8 gap-4">
-          <Button text="Sign Up" />
-          <Button text="Login" dark />
+          <Link href={"/dashboard"}>
+            <Button text="Sign Up" />
+          </Link>
+          <Link href={"/dashboard"}>
+            <Button text="Login" dark />
+          </Link>
         </div>
       </div>
       <div className="w-full max-w-[1000px]">
-        <Calender />
+        <Calender
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+          moodData={moodData}
+          moods={moods}
+        />
       </div>
+      {selectedDate && (
+        <div className="flex gap-4 mt-4">
+          {Object.entries(moods).map(([mood, emoji]) => (
+            <button
+              key={mood}
+              onClick={() => handleMoodSelect(mood)}
+              className="text-4xl hover:scale-110 transition-transform"
+              title={mood}
+            ></button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

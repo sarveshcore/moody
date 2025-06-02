@@ -1,5 +1,7 @@
 import { Fugaz_One, Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Link from "next/link";
+import { AuthProvider } from "@/context/AuthContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,9 +26,11 @@ export const metadata = {
 export default function RootLayout({ children }) {
   const header = (
     <header className="p-4 sm:p-8 flex items-center justify-between gap-4 border-b border-slate-100">
-      <h1 className={fugaz.className + " text-lg sm:text-lg textGradient"}>
-        Moody
-      </h1>
+      <Link href={"/"}>
+        <h1 className={fugaz.className + " text-lg sm:text-lg textGradient"}>
+          Moody
+        </h1>
+      </Link>
       <div className="flex items-center justify-between gap-4">
         <span className="text-slate-600">PLACEHOLDER</span>
       </div>
@@ -45,13 +49,15 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang="en">
-      <body
-        className={`w-full max-w-[1000px] mx-auto text-sm sm:text-base min-h-screen flex flex-col text-slate-700 ${geistSans.variable} ${geistMono.variable}`}
-      >
-        {header}
-        {children}
-        {footer}
-      </body>
+      <AuthProvider>
+        <body
+          className={`w-full max-w-[1000px] mx-auto text-sm sm:text-base min-h-screen flex flex-col text-slate-700 ${geistSans.variable} ${geistMono.variable}`}
+        >
+          {header}
+          {children}
+          {footer}
+        </body>
+      </AuthProvider>
     </html>
   );
 }
