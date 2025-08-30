@@ -21,8 +21,14 @@ function Header() {
     }
   };
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } catch (error) {
+      console.error("Logout error:", error);
+      // Even if logout fails, we can still clear the local state
+      // The user will be redirected to login on next page load
+    }
   };
 
   return (

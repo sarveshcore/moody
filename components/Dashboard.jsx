@@ -71,12 +71,16 @@ function Dashboard() {
       [dateKey]: mood,
     }));
     try {
+      if (!db) {
+        throw new Error("Firestore is not initialized");
+      }
       const userRef = doc(db, "users", currentUser.uid);
       await updateDoc(userRef, {
         [`moods.${dateKey}`]: mood,
       });
     } catch (error) {
       console.error("Error saving mood:", error);
+      // Revert the optimistic update
       setMoodData((prev) => {
         const newData = { ...prev };
         delete newData[dateKey];

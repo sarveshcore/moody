@@ -22,12 +22,22 @@ let auth;
 let db;
 
 if (firebaseConfig.apiKey && firebaseConfig.projectId) {
-  app = initializeApp(firebaseConfig);
-  auth = getAuth(app);
-  db = getFirestore(app);
+  try {
+    app = initializeApp(firebaseConfig);
+    auth = getAuth(app);
+    db = getFirestore(app);
+  } catch (error) {
+    console.error("Error initializing Firebase:", error);
+  }
 } else {
   console.warn(
-    "Firebase configuration is incomplete. Some features may not work."
+    "Firebase configuration is incomplete. Please set the following environment variables:",
+    "\n- NEXT_PUBLIC_FIREBASE_API_KEY",
+    "\n- NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN",
+    "\n- NEXT_PUBLIC_FIREBASE_PROJECT_ID",
+    "\n- NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET",
+    "\n- NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID",
+    "\n- NEXT_PUBLIC_FIREBASE_APP_ID"
   );
 }
 

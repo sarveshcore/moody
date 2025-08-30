@@ -35,7 +35,18 @@ function Login() {
         await login(email, password);
         router.push("/dashboard");
       } catch (loginError) {
-        setError("Failed to sign up or login. Please check your credentials.");
+        if (
+          loginError.message &&
+          loginError.message.includes("Firebase Auth is not initialized")
+        ) {
+          setError(
+            "Firebase is not configured. Please check your environment variables."
+          );
+        } else {
+          setError(
+            "Failed to sign up or login. Please check your credentials."
+          );
+        }
       }
     } finally {
       setIsLoading(false);
