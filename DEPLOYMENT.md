@@ -29,8 +29,6 @@ You need to set up the following secrets in your GitHub repository:
 
 ## Google Cloud Setup
 
-### 1. Create a Service Account
-
 ```bash
 # Set your project ID
 export PROJECT_ID="your-project-id"
@@ -58,14 +56,14 @@ gcloud iam service-accounts keys create key.json \
     --iam-account=github-actions@$PROJECT_ID.iam.gserviceaccount.com
 ```
 
-### 2. Enable Required APIs
+### Enable Required APIs
 
 ```bash
 gcloud services enable run.googleapis.com
 gcloud services enable containerregistry.googleapis.com
 ```
 
-### 3. Add the Service Account Key to GitHub
+### Add Secrets to GitHub
 
 1. Copy the contents of `key.json`
 2. Go to your GitHub repository
@@ -135,6 +133,12 @@ gcloud run deploy moody \
 
 ### Common Issues:
 
+**❌ "workflow must specify exactly one of 'workload_identity_provider' or 'credentials_json'"**
+
+- This error occurs when GitHub secrets are not properly set
+- Check that all required secrets are added to your repository
+- Ensure secrets are not empty or malformed
+
 **❌ Authentication failed**
 
 - Check that `GCP_SA_KEY` secret is correctly formatted JSON
@@ -156,6 +160,12 @@ gcloud run deploy moody \
 
 - Ensure service account has Cloud Run Admin role
 - Check that required APIs are enabled
+
+### Quick Fix for Secret Issues:
+
+1. **Check Secret Names**: Ensure exact spelling and case
+2. **Re-add Secrets**: Delete and recreate the secret
+3. **Check Repository Settings**: Ensure secrets are accessible to workflows
 
 ### Getting Help:
 
