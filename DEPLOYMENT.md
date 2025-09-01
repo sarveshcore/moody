@@ -76,6 +76,17 @@ gcloud artifacts repositories create moody-repo \
     --repository-format=docker \
     --location=europe-west1 \
     --description="Docker repository for moody app"
+
+# Grant permissions to the specific repository
+gcloud artifacts repositories add-iam-policy-binding moody-repo \
+    --location=europe-west1 \
+    --member="serviceAccount:github-actions@$PROJECT_ID.iam.gserviceaccount.com" \
+    --role="roles/artifactregistry.writer"
+
+gcloud artifacts repositories add-iam-policy-binding moody-repo \
+    --location=europe-west1 \
+    --member="serviceAccount:github-actions@$PROJECT_ID.iam.gserviceaccount.com" \
+    --role="roles/artifactregistry.reader"
 ```
 
 ### Add Secrets to GitHub
