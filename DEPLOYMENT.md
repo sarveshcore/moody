@@ -68,6 +68,16 @@ gcloud services enable containerregistry.googleapis.com
 gcloud services enable artifactregistry.googleapis.com
 ```
 
+### Create Artifact Registry Repository
+
+```bash
+# Create Docker repository in europe-west1
+gcloud artifacts repositories create moody-repo \
+    --repository-format=docker \
+    --location=europe-west1 \
+    --description="Docker repository for moody app"
+```
+
 ### Add Secrets to GitHub
 
 1. Copy the contents of `key.json`
@@ -115,13 +125,16 @@ The app includes a health check endpoint at `/api/health` that returns:
 If you need to deploy manually:
 
 ```bash
+# Configure Docker for Artifact Registry
+gcloud auth configure-docker europe-west1-docker.pkg.dev --quiet
+
 # Build and push image
-docker build -t gcr.io/$PROJECT_ID/moody .
-docker push gcr.io/$PROJECT_ID/moody
+docker build -t europe-west1-docker.pkg.dev/$PROJECT_ID/moody-repo/moody .
+docker push europe-west1-docker.pkg.dev/$PROJECT_ID/moody-repo/moody
 
 # Deploy to Cloud Run
 gcloud run deploy moody \
-  --image gcr.io/$PROJECT_ID/moody \
+  --image europe-west1-docker.pkg.dev/$PROJECT_ID/moody-repo/moody \
   --platform managed \
   --region europe-west1 \
   --allow-unauthenticated \
