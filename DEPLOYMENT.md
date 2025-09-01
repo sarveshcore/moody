@@ -51,6 +51,10 @@ gcloud projects add-iam-policy-binding $PROJECT_ID \
     --member="serviceAccount:github-actions@$PROJECT_ID.iam.gserviceaccount.com" \
     --role="roles/iam.serviceAccountUser"
 
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+    --member="serviceAccount:github-actions@$PROJECT_ID.iam.gserviceaccount.com" \
+    --role="roles/artifactregistry.writer"
+
 # Create and download key
 gcloud iam service-accounts keys create key.json \
     --iam-account=github-actions@$PROJECT_ID.iam.gserviceaccount.com
@@ -61,6 +65,7 @@ gcloud iam service-accounts keys create key.json \
 ```bash
 gcloud services enable run.googleapis.com
 gcloud services enable containerregistry.googleapis.com
+gcloud services enable artifactregistry.googleapis.com
 ```
 
 ### Add Secrets to GitHub
@@ -160,6 +165,12 @@ gcloud run deploy moody \
 
 - Ensure service account has Cloud Run Admin role
 - Check that required APIs are enabled
+
+**❌ "Permission artifactregistry.repositories.uploadArtifacts denied"**
+
+- Grant `roles/artifactregistry.writer` permission to the service account
+- Enable Artifact Registry API: `gcloud services enable artifactregistry.googleapis.com`
+- Ensure the service account has access to the correct region
 
 ### Quick Fix for Secret Issues:
 
